@@ -5,8 +5,8 @@ import './app-header.css'
 const AppHeader = () => {
     return (
         <div className="app-header d-flex">
-            <h1>Ivan Petrychenko</h1>
-            <h2>5 записей, из них понравилось 0</h2>
+            <h1>Michael Kapush</h1>
+            <h2>5 posts / 2 liked</h2>
         </div>
     )
 }

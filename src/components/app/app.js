@@ -13,7 +13,8 @@ const App = () => {
     const data = [
         {label: 'Going to learn React', important: true, id: 'ww'},
         {label: 'That is so good', important: false, id: 'sd'},
-        {label: 'I need a break...', important: false, id: 'dff'}
+        {label: 'I need a break...', important: false, id: 'dff'},
+        {}
     ]
 
     return (

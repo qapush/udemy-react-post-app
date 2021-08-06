@@ -2,6 +2,8 @@
   font-size: 1.25rem;
 }
 
+.list-group-item {}
+
 .app-list-item button {
   width: 35px;
   height: 35px;
@@ -15,7 +17,7 @@
     outline: none;
 }
 .app-list-item .btn-star {
-    color: #FFD700;
+    color: #ee8585;
 }
 .app-list-item .btn-trash {
     color: red;
@@ -38,6 +40,7 @@
   cursor: pointer;
   user-select: none;
   transition: 0.5s all;
+  color: #112440;
 }
 
 .app-list-item.like .fa-heart {
@@ -46,7 +49,7 @@
 }
 
 .app-list-item.important .app-list-item-label {
-  color: #FFD700;
+  color: #da3d0c;
 }
 
 .app-list-item.important .btn-star {
