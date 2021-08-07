@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-id-generator": "^3.0.1",
     "react-scripts": "2.1.1",
     "reactstrap": "^7.0.0"
   },
