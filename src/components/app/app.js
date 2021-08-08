@@ -15,14 +15,47 @@ export default class App extends Component {
         super(props);
         this.state = {
             data:[
-                {label: 'Going to learn React', important: true, id: nextId()},
-                {label: 'That is so good', important: false, id: nextId()},
-                {label: 'I need a break...', important: false, id: nextId()}
-            ]
+                {label: 'Going to learn React', important: true, like: false, id: nextId()},
+                {label: 'That is so good', important: false, like: false, id: nextId()},
+                {label: 'I need a break...', important: false, like: false, id: nextId()}
+            ],
+            term: '',
+            filter: 'all'
         };
         
         // alternative syntex to bind() method
-        this.deleteItem = (id) => {
+
+        this.onUpdateSearch = term => {
+            this.setState({ term })
+        }
+
+        this.onFilterSelect = filter => {
+            this.setState({ filter })
+        }
+
+        this.searchPost = (items, term) => {
+            
+            if(term.length === 0){
+                return items;
+            }
+
+            return items.filter( item => {
+                return item.label.indexOf(term) > -1;
+            }) 
+
+        }
+
+        this.filterPost = (items, filter) => {
+            
+            if(filter === 'like') {
+                return items.filter(item => item.like)
+            } else {
+                return items
+            }
+           
+       }
+
+        this.deleteItem = id => {
             this.setState( ({data}) => {
                 const index = data.findIndex( elem => elem.id === id);
 
@@ -51,20 +84,69 @@ export default class App extends Component {
             })
 
         };
+
+        this.onToggleImportant = id => {
+            this.setState( ({data}) => {
+                const index = data.findIndex( elem => elem.id === id );
+
+                const oldItem = data[index];
+                const newItem = {...oldItem, important: !oldItem.important}
+
+                const newArray = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+                return {
+                    data: newArray
+                }
+            });
+        };
+
+        this.onToggleLiked = id => {
+            this.setState( ({data}) => {
+                const index = data.findIndex( elem => elem.id === id );
+
+                const oldItem = data[index];
+                const newItem = {...oldItem, like: !oldItem.like}
+
+                const newArray = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+                return {
+                    data: newArray
+                }
+            });
+        };
+
     }
 
 
     render() {
+
+        const { data, term, filter } = this.state;
+
+        const liked = data.filter( item => item.like ).length;
+        const allPosts = data.length;
+
+        const visiblePosts = this.filterPost( this.searchPost(data, term), filter);
+
         return (
             <div className="app">
-                 <AppHeader/>
+                 <AppHeader 
+                    liked = { liked }
+                    allPosts = { allPosts }
+                />
                  <div className="search-panel d-flex">
-                     <SearchPanel/>
-                     <PostStatusFilter/>
+                     <SearchPanel 
+                        onUpdateSearch = { this.onUpdateSearch }
+                     />
+                     <PostStatusFilter
+                        filter = { filter }
+                        onFilterSelect = { this.onFilterSelect }
+                     />
                  </div>
                  <PostList 
-                     posts={this.state.data}
-                     onDelete={ this.deleteItem }    
+                     posts={ visiblePosts }
+                     onDelete={ this.deleteItem }
+                     onToggleImportant={ this.onToggleImportant }    
+                     onToggleLiked={ this.onToggleLiked }    
                      />
                  <PostAddForm
                     onAdd={ this.addItem }
